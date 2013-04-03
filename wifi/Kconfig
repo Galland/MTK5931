@@ -1,0 +1,391 @@
+menuconfig AM_WIFI
+	bool "Amlogic Wi-Fi support"
+	default n
+
+if AM_WIFI
+config AM_WIFI_SD_MMC
+	bool "Amlogic SDIO Wi-Fi support"
+	depends on AM_WIFI
+	default n
+
+config   AM_WIFI_USB
+	bool "Amlogic USB Wi-Fi Dongle Support"
+	depends on AM_WIFI
+	default n
+
+config SDIO_DHD_CDC_WIFI_4319
+	bool "Broadcom 4319 wireless cards support"
+	depends on AM_WIFI_SD_MMC
+	select WIRELESS_EXT
+	select WEXT_PRIV
+	---help---
+	  This module adds support for wireless adapters based on
+	  Broadcom 4319 chipset.
+
+	  This driver uses the kernel's wireless extensions subsystem.
+	  You should add bcm4329 firmware and nvram file in directory drivers/amlogic/wifi/
+	  
+          & assure to set these config in 
+	  Device Drivers  ---> Generic Driver Options  ---> 
+
+	  [*]   Include in-kernel firmware blobs in kernel binary  
+          (broadcm_4319/nvram_4319_201008.txt broadcm_4319/sdio-g-cdc-full11n-reclaim-roml-wme.bin) External firmware blobs to build into 
+	  
+config BCM4319_FW_PATH
+	depends on SDIO_DHD_CDC_WIFI_4319
+	string "BCM4319 Firmware path"
+	default "broadcm_4319/sdio-g-cdc-full11n-reclaim-roml-wme.bin"
+	---help---
+	  Path to the firmware file.
+
+config BCM4319_NVRAM_PATH
+	depends on SDIO_DHD_CDC_WIFI_4319
+	string "BCM4319 NVRAM path"
+	default "broadcm_4319/nvram_4319_201008.txt"
+	---help---
+	  Path to nvram file.
+
+config SDIO_DHD_CDC_WIFI_4329
+	bool "Broadcom 4329 wireless cards support"
+	depends on AM_WIFI_SD_MMC
+	select WIRELESS_EXT
+	select WEXT_PRIV
+	---help---
+	  This module adds support for wireless adapters based on
+	  Broadcom 4329 chipset.
+
+	  This driver uses the kernel's wireless extensions subsystem.
+	  You should add bcm4329 firmware and nvram file in directory drivers/amlogic/wifi/
+	  
+          & assure to set these config in 
+	  Device Drivers  ---> Generic Driver Options  ---> 
+
+	  [*]   Include in-kernel firmware blobs in kernel binary  
+          (broadcm_4329/nvram.txt broadcm_4329/sdio-g-cdc-full11n-reclaim-roml-wme-idsup.bin) External firmware blobs to build into 
+	  
+config BCM4329_FW_PATH
+	depends on SDIO_DHD_CDC_WIFI_4329
+	string "BCM4329 Firmware path"
+	default "broadcm_4329/sdio-g-cdc-full11n-reclaim-roml-wme-idsup.bin"
+	---help---
+	  Path to the firmware file.
+
+config BCM4329_NVRAM_PATH
+	depends on SDIO_DHD_CDC_WIFI_4329
+	string "BCM4329 NVRAM path"
+	default "broadcm_4329/nvram.txt"
+	---help---
+	  Path to nvram file.
+
+config SAMSUNG_WIFI_4329
+	bool "Samsung 4329 wireless cards support"
+	depends on AM_WIFI_SD_MMC
+	select WIRELESS_EXT
+	select WEXT_PRIV
+---help---
+	  This module adds support for wireless adapters based on
+	  Samsung Bcm 4329 chipset.
+
+	  This driver uses the kernel's wireless extensions subsystem.
+	  You should add bcm4329 firmware and nvram file in directory drivers/amlogic/wifi/
+	  
+          & assure to set these config in 
+	  Device Drivers  ---> Generic Driver Options  ---> 
+
+	  [*]   Include in-kernel firmware blobs in kernel binary  
+          (bcm4329/nvram.txt bcm4329/fw_bcm4329.bin) External firmware blobs to build into 
+	  
+config SAMSUNG_BCM4329_FW_PATH
+	depends on SAMSUNG_WIFI_4329
+	string "SAMSUNG BCM4329 Firmware path"
+	default "bcm4329/fw_bcm4329.bin"
+	---help---
+	  Path to the firmware file.
+
+config SAMSUNG_BCM4329_NVRAM_PATH
+	depends on SAMSUNG_WIFI_4329
+	string "SAMSUNG BCM4329 NVRAM path"
+	default "bcm4329/nvram.txt"
+	---help---
+	  Path to nvram file.
+	  
+source "drivers/amlogic/wifi/broadcm_40181/Kconfig"
+
+source "drivers/amlogic/wifi/AP6xxx/Kconfig"
+
+source "drivers/amlogic/wifi/mtk_5931/Kconfig"
+	  
+config SDIO_ATHEROS_6302_WIFI
+	bool "ATHEROS 6302 wireless cards support"
+	depends on AM_WIFI_SD_MMC
+	select WIRELESS_EXT
+	select WEXT_PRIV
+	---help---
+	This module adds support for ATHEROS 6302 wireless cards support.
+	
+	This driver uses the kernel's wireless extensions subsystem.
+	You should add ATHEROS 6302 firmware file in directory firmware/atheros_6302
+	
+	    & assure to set these config in 
+	Device Drivers  ---> Generic Driver Options  ---> 
+	
+	[*]   Include in-kernel firmware blobs in kernel binary  
+	    (atheros_6302/otp.bin.z77 atheros_6302/athwlan.bin.z77 atheros_6302/data.patch.bin atheros_6302/bdata.SD31.bin) External firmware blobs to build into 
+
+config AR6003_REV2_OTP_FILE
+	depends on SDIO_ATHEROS_6302_WIFI
+	string "ATHEROS_6302 OTP path"
+	default "atheros_6302/otp.bin.z77"
+	---help---
+	  Path to the otp file.
+	  
+config AR6003_REV2_FIRMWARE_FILE
+	depends on SDIO_ATHEROS_6302_WIFI
+	string "ATHEROS_6302 FIRMWARE path"
+	default "atheros_6302/athwlan.bin.z77"
+	---help---
+	  Path to the firmware file.
+	  
+config AR6003_REV2_PATCH_FILE
+	depends on SDIO_ATHEROS_6302_WIFI
+	string "ATHEROS_6302 PATCH path"
+	default "atheros_6302/data.patch.bin"
+	---help---
+	  Path to the patch file.
+
+config AR6003_REV2_BOARD_DATA_FILE
+	depends on SDIO_ATHEROS_6302_WIFI
+	string "ATHEROS_6302 BOARD_DATA path"
+	default "atheros_6302/bdata.SD31.bin"
+	---help---
+	  Path to the bdata file.
+	  
+config SDIO_ATHEROS_6102_WIFI
+	bool "ATHEROS 6102 wireless cards support"
+	depends on AM_WIFI_SD_MMC
+	select WIRELESS_EXT
+	select WEXT_PRIV
+	---help---
+	This module adds support for ATHEROS 6102 wireless cards support.
+	
+	This driver uses the kernel's wireless extensions subsystem.
+	You should add ATHEROS 6102 firmware file in directory firmware/atheros_6102
+	
+	    & assure to set these config in 
+	Device Drivers  ---> Generic Driver Options  ---> 
+	
+	[*]   Include in-kernel firmware blobs in kernel binary  
+	    (atheros_6102/calData_ar6102_15dBm.bin atheros_6102/athwlan.bin.z77 atheros_6102/data.patch.hw2_0.bin) External firmware blobs to build into 	  
+	  	  	  
+config AR6102_FIRMWARE_FILE
+	depends on SDIO_ATHEROS_6102_WIFI
+	string "ATHEROS_6102 FIRMWARE path"
+	default "atheros_6102/athwlan.bin.z77"
+	---help---
+	  Path to the firmware file.
+	  
+config AR6102_PATCH_FILE
+	depends on SDIO_ATHEROS_6102_WIFI
+	string "ATHEROS_6102 PATCH path"
+	default "atheros_6102/data.patch.hw2_0.bin"
+	---help---
+	  Path to the patch file.
+
+config AR6102_BOARD_DATA_FILE
+	depends on SDIO_ATHEROS_6102_WIFI
+	string "ATHEROS_6102 BOARD_DATA path"
+	default "atheros_6102/calData_ar6102_15dBm.bin"
+	---help---
+	  Path to the bdata file.
+	  
+config SDIO_MARVELL_NH387_WIFI
+	bool "Marvell nh387 wireless cards support"
+	depends on AM_WIFI_SD_MMC
+	select WIRELESS_EXT
+	select WEXT_PRIV
+	---help---
+	  This module adds support for wireless adapters based on
+	  Marvell nh387 chipset.
+
+	  This driver uses the kernel's wireless extensions subsystem.
+	  You should add Marvell nh387 firmware and nvram file in directory drivers/amlogic/wifi/
+	  
+          & assure to set these config in 
+	  Device Drivers  ---> Generic Driver Options  ---> 
+
+	  [*]   Include in-kernel firmware blobs in kernel binary  
+          (mrvl/sd8787_uapsta.bin mrvl/sd8787_uapsta_w1.bin) External firmware blobs to build into 
+if SDIO_MARVELL_NH387_WIFI	  
+config SDIO_HARD_IRQ
+	depends on SDIO
+	bool "SDIO HARD IRQ"
+	default y
+	---help---
+	  hard irq wake up polling process
+config MRVLNH387_FW_PATH
+	depends on SDIO_MARVELL_NH387_WIFI
+	string "MRVLNH387 Firmware path"
+	default "mrvl/sd8787_uapsta.bin"
+	---help---
+	  Path to the firmware file.
+config MRVLNH387_W1_FW_PATH
+	depends on SDIO_MARVELL_NH387_WIFI
+	string "MRVLNH387 Firmware path"
+	default "mrvl/sd8787_uapsta_w1"
+	---help---
+	  Path to firmware file.
+config MRVLNH387_DEBUG
+	depends on SDIO_MARVELL_NH387_WIFI
+	string "MRVLNH387 Debug level n/1/2"
+	default "n"
+		---help---
+	  MRVLNH387 Debug level n/1/2.
+config MRVLNH387_PROC_DEBUG
+	depends on SDIO_MARVELL_NH387_WIFI
+	bool "MRVLNH387 Proc debug file"
+	default n
+		---help---
+	  MRVLNH387 Proc debug file.
+config MRVLNH387_STA_SUPPORT
+	depends on SDIO_MARVELL_NH387_WIFI
+	bool "ENABLE STA mode support"
+	default y
+		---help---
+	  ENABLE STA mode support.
+config MRVLNH387_UAP_SUPPORT
+	depends on SDIO_MARVELL_NH387_WIFI
+	bool "Enable AP mode support"
+	default n
+		---help---
+	  Enable AP mode support.
+config MRVLNH387_REASSOCIATION
+	depends on SDIO_MARVELL_NH387_WIFI
+	bool "Re-association in driver"
+	default y
+		---help---
+	  Re-association in driver.
+config MRVLNH387_MFG_CMD_SUPPORT
+	depends on SDIO_MARVELL_NH387_WIFI
+	bool "Manufacturing firmware support"
+	default y
+		---help---
+	  Manufacturing firmware support.
+config MRVLNH387_BIG_ENDIAN
+	depends on SDIO_MARVELL_NH387_WIFI
+	bool "Big-endian platform"
+	default n
+		---help---
+	  Big-endian platform.
+config MRVLNH387_SDIO_MULTI_PORT_TX_AGGR
+	depends on SDIO_MARVELL_NH387_WIFI
+	bool "Enable SDIO multi-port Tx aggregation"
+	default n
+		---help---
+	  Enable SDIO multi-port Tx aggregation.
+config MRVLNH387_SDIO_MULTI_PORT_RX_AGGR
+	depends on SDIO_MARVELL_NH387_WIFI
+	bool "Enable SDIO multi-port Rx aggregation"
+	default n
+		---help---
+	  Enable SDIO multi-port Rx aggregation.
+config MRVLNH387_SDIO_SUSPEND_RESUME
+	depends on SDIO_MARVELL_NH387_WIFI
+	bool "SDIO suspend/resume"
+	default n
+		---help---
+	  SDIO suspend/resume.
+endif
+
+config SDIO_DHD_CDC_WIFI_4319_MODULE
+	tristate "Broadcom 4319 wireless cards support"
+	depends on AM_WIFI_SD_MMC
+	select WIRELESS_EXT
+	select WEXT_PRIV
+	---help---
+	  This module adds support for wireless adapters based on
+	  Broadcom 4319 chipset.
+
+	  
+config SDIO_DHD_CDC_WIFI_4329_MODULE
+	tristate "Broadcom 4329 wireless cards support"
+	depends on AM_WIFI_SD_MMC
+	select WIRELESS_EXT
+	select WEXT_PRIV
+	---help---
+	  This module adds support for wireless adapters based on
+	  Broadcom 4329 chipset.
+
+config BCM4329_WIFI_CONTROL_FUNC
+	bool "Use bcm4329_wlan device"
+	depends on SDIO_DHD_CDC_WIFI_4329_MODULE
+	default n
+	---help---
+	   Use this option to get various parameters from architecture specific
+	   bcm4329_wlan platform device. Say n if unsure.
+
+#if BCM4329_WIFI_CONTROL_FUNC
+
+#config BCM4329_DHD_USE_STATIC_BUF
+#	bool "Use static buffer"
+#	depends on SDIO_DHD_CDC_WIFI_4329_MODULE
+#	default n
+#	---help---
+#	   Use static buffer from kernel heap allocated during bcm4329_wlan
+#	   platform device creation.
+
+config BCM4329_HW_OOB
+	bool "Use out of band interrupt"
+	depends on SDIO_DHD_CDC_WIFI_4329_MODULE
+	default n
+	---help---
+	   Use out of band interrupt for wake on wireless.
+
+config BCM4329_OOB_INTR_ONLY
+	bool "Use out of band interrupt only"
+	depends on SDIO_DHD_CDC_WIFI_4329_MODULE
+	default n
+	---help---
+	   Use out of band interrupt for all interrupts(including SDIO interrupts).
+
+config RTL8XXX_SU_USB_WIFI
+	tristate "Realtek SU series (8712 8188 8191 8192SU) Wireless USB Dongle support"
+	default n
+	depends on MAC80211 && AM_WIFI_USB
+	---help---
+	  This module adds support for wireless USB dongle based on
+	  Realtek 8712 8188 8191 8192SU chipset.
+
+config RTL8XXX_CU_USB_WIFI
+	tristate "Realtek CU series (8192 8188CU) Wireless USB Dongle support"
+	default n
+	depends on MAC80211 && AM_WIFI_USB
+	select WIRELESS_EXT
+	select WEXT_PRIV
+	---help---
+	  This module adds support for wireless USB dongle based on
+	  Realtek 8192CU chipset.
+	  
+config RTL8188EU
+	tristate "Realtek EU series (8188EU) Wireless USB Dongle support"
+	default n
+	depends on MAC80211 && AM_WIFI_USB
+	select WIRELESS_EXT
+	select WEXT_PRIV
+	---help---
+	  This module adds support for wireless USB dongle based on
+	  Realtek 8188EU chipset.	  
+
+config MTK_WIFI_ICS
+	bool "MT6620 drivers support Andriod ICS "
+	default n
+	---help---
+		Choose mt6620 driver support Andriod ICS or Android JB
+
+if	MTK_WIFI_ICS
+  source "drivers/amlogic/wifi/mtk_wcn_combo_ics/Kconfig"
+endif
+if  !MTK_WIFI_ICS
+source "drivers/amlogic/wifi/mtk_wcn_combo_jb/Kconfig"
+endif
+
+endif # AM_WIFI

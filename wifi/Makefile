@@ -1,0 +1,17 @@
+obj-$(CONFIG_RTL8XXX_CU_USB_WIFI) += rtl8xxx_CU/
+obj-$(CONFIG_RTL8XXX_SU_USB_WIFI) += rtl8xxx_SU/
+obj-$(CONFIG_RTL8188EU) += rtl8xxx_EU/
+obj-$(CONFIG_SAMSUNG_WIFI_4329) += bcm4329/
+obj-$(CONFIG_SDIO_DHD_CDC_WIFI_4329) += broadcm_4329/
+obj-$(CONFIG_SDIO_DHD_CDC_WIFI_4319) += broadcm_4329/
+obj-$(CONFIG_SDIO_ATHEROS_6302_WIFI) += atheros_6302/
+obj-$(CONFIG_SDIO_ATHEROS_6102_WIFI) += atheros_6102/
+obj-$(CONFIG_SDIO_MARVELL_NH387_WIFI) += mrvl_nh387/
+obj-$(CONFIG_SDIO_DHD_CDC_WIFI_4329_MODULE) += broadcm_4329_new/
+obj-$(CONFIG_SDIO_DHD_CDC_WIFI_4319_MODULE) += broadcm_4329_new/
+obj-$(CONFIG_SDIO_DHD_CDC_WIFI_40181_MODULE) += broadcm_40181/
+obj-$(CONFIG_MTK_COMBO_ICS) += mtk_wcn_combo_ics/
+obj-$(CONFIG_MTK_COMBO) += mtk_wcn_combo_jb/
+obj-$(CONFIG_MT5931) += mtk_5931/
+obj-$(CONFIG_SDIO_DHD_CDC_WIFI_AP6xxx_MODULE) += AP6xxx/
+obj-$(CONFIG_AM_WIFI) += wifi_power.o

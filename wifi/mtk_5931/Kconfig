@@ -1,0 +1,14 @@
+config MT5931
+    #depends on WLAN_80211
+    select WIRELESS_EXT
+    select WEXT_PRIV
+    tristate "MT5931_WIFI"
+    ---help---
+    
+config MT5931_OOB_INTR_ONLY
+    bool "Use out of band interrupt only"
+    depends on MT5931
+    default n
+    ---help---
+       Use out of band interrupt for all interrupts(including SDIO interrupts).
+

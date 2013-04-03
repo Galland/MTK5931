@@ -1,0 +1,65 @@
+config SDIO_DHD_CDC_WIFI_40181_MODULE
+        tristate "Broadcom 40181/40183 wireless cards support"
+        depends on AM_WIFI_SD_MMC || SD_MMC
+        select WIRELESS_EXT
+        select WEXT_PRIV
+        ---help---
+          This module adds support for wireless adapters based on
+          Broadcom 40181 chipset.
+
+choice
+    depends on SDIO&&SDIO_DHD_CDC_WIFI_40181_MODULE
+    prompt "Wifi module type"
+
+config BCM40181_WIFI
+    bool "40181 without bluetooth"
+config BCM40183_WIFI
+    bool "40183 with bluetooth"
+
+endchoice
+
+config SDIO_HARD_IRQ
+        depends on SDIO&&SDIO_DHD_CDC_WIFI_40181_MODULE
+        bool "SDIO HARD IRQ"
+        default y
+        ---help---
+          hard irq wake up polling process
+
+config BCM40181_WIFI_CONTROL_FUNC
+        bool "Use bcm40181/40183_wlan device"
+        depends on SDIO_DHD_CDC_WIFI_40181_MODULE
+        default n
+        ---help---
+           Use this option to get various parameters from architecture specific
+           bcm40181_wlan platform device. Say n if unsure.
+
+#if BCM40181_WIFI_CONTROL_FUNC
+
+#config BCM40181_DHD_USE_STATIC_BUF
+#       bool "Use static buffer"
+#       depends on SDIO_DHD_CDC_WIFI_40181_MODULE
+#       default n
+#       ---help---
+#          Use static buffer from kernel heap allocated during bcm40181_wlan
+#          platform device creation.
+
+config BCM40181_HW_OOB
+        bool "Use out of band interrupt"
+        depends on SDIO_DHD_CDC_WIFI_40181_MODULE
+        default n
+        ---help---
+           Use out of band interrupt for wake on wireless.
+
+config BCM40181_OOB_INTR_ONLY
+        bool "Use out of band interrupt only"
+        depends on SDIO_DHD_CDC_WIFI_40181_MODULE
+        default n
+        ---help---
+           Use out of band interrupt for all interrupts(including SDIO interrupts).
+
+config BCM40181_POWER_ALWAYS_ON
+        bool "wifi power always on"
+        depends on SDIO_DHD_CDC_WIFI_40181_MODULE
+        default n
+        ---help---
+           keep wifi power on when system suspend.

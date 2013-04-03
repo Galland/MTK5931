@@ -1,0 +1,49 @@
+config SDIO_DHD_CDC_WIFI_AP6xxx_MODULE
+	tristate "AP6xxx(Broadcom 4329/4330) wireless cards support"
+	depends on AM_WIFI_SD_MMC || SD_MMC
+	---help---
+	  This module adds support for wireless adapters based on
+	  Broadcom 4329/4330 chipset.
+
+config BCMDHD_OOB
+	depends on SDIO_DHD_CDC_WIFI_AP6xxx_MODULE
+	bool "Out-of-Band Interrupt"
+	default y
+	---help---
+	  Out-of-Band interrupt through WL_HOST_WAKE.
+
+config BCMDHD_FW_PATH
+	depends on SDIO && SDIO_DHD_CDC_WIFI_AP6xxx_MODULE
+	string "Firmware path"
+	default "/system/etc/wifi/AP6xxx/fw_bcmdhd.bin"
+	---help---
+	  Path to the firmware file.
+
+config BCMDHD_NVRAM_PATH
+	depends on SDIO && SDIO_DHD_CDC_WIFI_AP6xxx_MODULE
+	string "NVRAM path"
+	default "/system/etc/wifi/AP6xxx/nvram.txt"
+	---help---
+	  Path to the calibration file.
+
+config BCMDHD_WEXT
+	bool "Enable WEXT support"
+	depends on SDIO_DHD_CDC_WIFI_AP6xxx_MODULE && CFG80211 = n
+	select WIRELESS_EXT
+	select WEXT_PRIV
+	help
+	  Enables WEXT support
+
+config DHD_USE_SCHED_SCAN
+	bool "Use CFG80211 sched scan"
+	depends on SDIO_DHD_CDC_WIFI_AP6xxx_MODULE && CFG80211
+	default n
+	---help---
+	  Use CFG80211 sched scan
+
+config BCM40181_POWER_ALWAYS_ON
+    bool "wifi power always on"
+    depends on SDIO_DHD_CDC_WIFI_AP6xxx_MODULE
+    default n
+    ---help---
+       keep wifi power on when system suspend.

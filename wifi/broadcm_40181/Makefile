@@ -1,0 +1,72 @@
+#bcmdhd flags
+DHDCFLAGS = -Wall -Wstrict-prototypes -Dlinux -DBCMDRIVER					\
+	-DBCMDONGLEHOST -DUNRELEASEDCHIP -DBCMDMA32 -DWLBTAMP -DBCMFILEIMAGE	\
+	-DDHDTHREAD -DDHD_GPL -DDHD_SCHED -DDHD_DEBUG -DBDC -DTOE				\
+	-DDHD_BCMEVENTS -DSHOW_EVENTS -DDONGLEOVERLAYS -DBCMDBG					\
+	-DMMC_SDIO_ABORT -DBCMSDIO -DBCMLXSDMMC -DBCMPLATFORM_BUS -DWLP2P		\
+	-DNEW_COMPAT_WIRELESS -DWIFI_ACT_FRAME 			\
+	-DKEEP_ALIVE -DCSCAN -DPKT_FILTER_SUPPORT \
+	-DEMBEDDED_PLATFORM -DPNO_SUPPORT          \
+	-DDHD_SDALIGN=64 -DMAX_HDR_READ=64 -DDHD_FIRSTREAD=64					\
+	-Idrivers/amlogic/wifi/broadcm_40181 -Idrivers/amlogic/wifi/broadcm_40181/include
+
+DHDOFILES = aiutils.o bcmsdh_sdmmc_linux.o dhd_linux.o siutils.o bcmutils.o \
+	dhd_linux_sched.o bcmwifi.o dhd_sdio.o bcmevent.o dhd_bta.o hndpmu.o  	\
+	bcmsdh.o dhd_cdc.o bcmsdh_linux.o dhd_common.o linux_osl.o            	\
+	bcmsdh_sdmmc.o dhd_custom_gpio.o sbutils.o wldev_common.o wl_android.o
+
+obj-$(CONFIG_SDIO_DHD_CDC_WIFI_40181_MODULE) += dhd.o
+dhd-objs += $(DHDOFILES)
+
+###DHDCFLAGS += -DCONFIG_HAS_EARLYSUSPEND
+#DHDCFLAGS += -DBCMWAPI_WPI
+DHDCFLAGS += -DCUSTOMER_HW_AMLOGIC
+DHDCFLAGS += -DENABLE_INSMOD_NO_FW_LOAD
+#DHDCFLAGS += -DBCMWAPI_WAI
+
+ifeq ($(CONFIG_MACH_ODROID_4210),y)
+	dhd-objs += hardkernel.o
+	DHDCFLAGS += -DCUSTOMER_HW
+	DHDCFLAGS += -DOOB_INTR_ONLY -DHW_OOB -DHARDKERNEL_OOB
+	DHDCFLAGS += -DENABLE_INSMOD_NO_FW_LOAD -DSET_RANDOM_MAC_SOFTAP
+endif
+
+ifeq ($(CONFIG_BCM40181_WIFI_CONTROL_FUNC),y)
+DHDCFLAGS += -DCONFIG_WIFI_CONTROL_FUNC
+endif
+ifeq ($(CONFIG_BCM40181_DHD_USE_STATIC_BUF),y)
+DHDCFLAGS += -DDHD_USE_STATIC_BUF
+endif
+
+ifeq ($(CONFIG_BCM40181_OOB_INTR_ONLY),y)
+DHDCFLAGS += -DOOB_INTR_ONLY
+ifeq ($(CONFIG_BCM40181_WIFI),y)
+DHDCFLAGS +=  -DCUSTOM_OOB_GPIO_NUM=INT_GPIO_4
+endif
+ifeq ($(CONFIG_BCM40183_WIFI),y)
+DHDCFLAGS +=  -DCUSTOM_OOB_GPIO_NUM=INT_GPIO_5
+endif
+ifeq ($(CONFIG_BCM40181_HW_OOB),y)
+DHDCFLAGS += -DHW_OOB
+endif
+else
+DHDCFLAGS += -DSDIO_ISR_THREAD 
+endif
+
+ifeq ($(CONFIG_BCM40181_GET_CUSTOM_MAC_ENABLE),y)
+DHDCFLAGS += -DGET_CUSTOM_MAC_ENABLE
+endif
+
+
+ifneq ($(CONFIG_WIRELESS_EXT),)
+dhd-objs += wl_iw.o
+DHDCFLAGS += -DSOFTAP -DWL_WIRELESS_EXT
+endif
+ifneq ($(CONFIG_CFG80211),)
+dhd-objs += wl_cfg80211.o wl_cfgp2p.o wl_linux_mon.o dhd_cfg80211.o
+DHDCFLAGS += -DWL_CFG80211
+endif
+EXTRA_CFLAGS = $(DHDCFLAGS)
+ifeq ($(CONFIG_SDIO_DHD_CDC_WIFI_40181_MODULE),m)
+EXTRA_LDFLAGS += --strip-debug
+endif
